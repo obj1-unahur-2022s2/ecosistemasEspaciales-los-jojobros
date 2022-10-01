@@ -1,12 +1,178 @@
+import especies.*
+import reservaNatural.*
 
-describe "tests de animales" {
-//probar los métodos biomasa(), peso(), consecuenciasDelIncendio, esGrande(),
-//esPequenio(), esMediano(), estaVivo(), etc
+describe "Tests de Animales" {
 	
-
+	test "Biomasa de la golondrina" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		
+		assert.equals(2, golondrina.biomasa())
+	}
+	
+	test "Peso de la golondrina" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		
+		assert.equals(2, golondrina.peso())
+	}
+	
+	test "La golondrina es pequeña" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		
+		assert.that(golondrina.esPequenio())
+	}
+	
+	test "El pelicano es mediano" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		
+		assert.that(pelicano.esMediano())
+	}
+	
+	test "El condor es grande" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		
+		assert.that(condor.esGrande())
+	}
+	
+	test "Los animales que sobreviven pierden el 10% de su peso" {
+		const mamifero = new EspecieFauna(coeficiente = 2, locomocion = correr, pesoReferencia = 70)
+		const jaguar = new Animal(especieFauna = mamifero, peso = 77)
+		
+		jaguar.consecuenciaDelIncendio()
+		
+		assert.equals(69.3, jaguar.peso())
+	}
+	
+	test "Consecuencias del incendio: Volador grande se salva" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		
+		condor.consecuenciaDelIncendio()
+		
+		assert.that(condor.estaVivo())
+	}
+	
+	test "Consecuencias del incendio: Volador mediano no se salva" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		
+		pelicano.consecuenciaDelIncendio()
+		
+		assert.notThat(pelicano.estaVivo())
+	}
+	
+	test "Consecuencias del incendio: Volador pequeño no se salva" {
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		
+		golondrina.consecuenciaDelIncendio()
+		
+		assert.notThat(golondrina.estaVivo())
+	}
+	
+	test "Consecuencias del incendio: Corredor grande no se salva" {
+		const mamifero = new EspecieFauna(coeficiente = 2, locomocion = correr, pesoReferencia = 70)
+		const leon = new Animal(especieFauna = mamifero, peso = 190)
+		
+		leon.consecuenciaDelIncendio()
+		
+		assert.notThat(leon.estaVivo())
+	}
+	
+	test "Consecuencias del incendio: Corredor mediano se salva" {
+		const mamifero = new EspecieFauna(coeficiente = 2, locomocion = correr, pesoReferencia = 70)
+		const jaguar = new Animal(especieFauna = mamifero, peso = 77)
+		
+		jaguar.consecuenciaDelIncendio()
+		
+		assert.that(jaguar.estaVivo())
+	}
+	
+	test "Consecuencias del incendio: Corredor pequeño no se salva" {
+		const mamifero = new EspecieFauna(coeficiente = 2, locomocion = correr, pesoReferencia = 5)
+		const erizo = new Animal(especieFauna = mamifero, peso = 1)
+		
+		erizo.consecuenciaDelIncendio()
+		
+		assert.notThat(erizo.estaVivo())
+	}
+	
+	test "Consecuencias del incendio: Nadador se salva" {
+		const mamiferoAcuatico = new EspecieFauna(coeficiente = 2, locomocion = nadar, pesoReferencia = 50)
+		const delfin = new Animal(especieFauna = mamiferoAcuatico, peso = 130)
+		
+		delfin.consecuenciaDelIncendio()
+		
+		assert.that(delfin.estaVivo())
+	}
+	
+	test "Consecuencias del incendio: Inmobil no se salva" {
+		const molusco = new EspecieFauna(coeficiente = 2, locomocion = inmobil, pesoReferencia = 1)
+		const mejillon = new Animal(especieFauna = molusco, peso = 1)
+		
+		mejillon.consecuenciaDelIncendio()
+		
+		assert.notThat(mejillon.estaVivo())
+	}
 }
 
-describe "tests de plantas" {
-//probar los métodos biomasa(), altura(), consecuenciasDelIncendio, esGrande(),
-//esPequenio(), estaVivo() etc
+describe "Tests de Plantas" {
+	
+	test "Biomasa de la margarita" {
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const margarita = new Planta(altura = 2, especieFlora = angiospermas)
+		
+		assert.equals(4, margarita.biomasa())
+	}
+	
+	test "Altura de la margarita" {
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const margarita = new Planta(altura = 2, especieFlora = angiospermas)
+		
+		assert.equals(2, margarita.altura())
+	}
+	
+	test "La margarita es pequeña" {
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const margarita = new Planta(altura = 2, especieFlora = angiospermas)
+		
+		assert.that(margarita.esPequenio())
+	}
+	
+	test "El arbusto es mediano" {
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const arbusto = new Planta(altura = 4, especieFlora = angiospermas)
+		
+		assert.that(arbusto.esPequenio())
+	}
+	
+	test "El roble es grande" {
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const roble = new Planta(altura = 40, especieFlora = angiospermas)
+		
+		assert.that(roble.esGrande())
+	}
+	
+	test "Consecuencias del incendio: Planta alta se salva y pierde 5 de altura" {
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const roble = new Planta(altura = 40, especieFlora = angiospermas)
+		
+		roble.consecuenciaDelIncendio()
+		
+		assert.that(roble.estaVivo())
+		assert.equals(35, roble.altura())
+	}
+	
+	test "Consecuencias del incendio: Planta pequeña no se salva" {
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const margarita = new Planta(altura = 2, especieFlora = angiospermas)
+		
+		margarita.consecuenciaDelIncendio()
+		
+		assert.notThat(margarita.estaVivo())
+	}
 }

@@ -1,10 +1,198 @@
+import reservaNatural.*
+import especies.*
 
-describe "test de la reserva" {
-//probar cantidadTotalBiomasa(), habitatsDesequilibrados(), contieneEspecie(), especieEstaEnTodosLosHabitats() etc
 
+describe "Test de la Reserva" {
+	
+	test "Cantidad total de la biomasa en animales" {
+		const llanura = new Habitat()
+		const bosque = new Habitat()
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		
+		llanura.agregarSerVivo(golondrina) 
+		llanura.agregarSerVivo(pelicano) 
+		llanura.agregarSerVivo(condor) 
+		
+		bosque.agregarSerVivo(golondrina) 
+		bosque.agregarSerVivo(pelicano) 
+		
+		reserva.agregarHabitat(llanura)
+		reserva.agregarHabitat(bosque)
+		
+		assert.equals(100.5, reserva.cantidadTotalBiomasa())
+	}
+	
+	test "Mayor cantidad de la biomasa" {
+		const llanura = new Habitat()
+		const bosque = new Habitat()
+		const bosque2 = new Habitat()
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		
+		llanura.agregarSerVivo(golondrina) 
+		llanura.agregarSerVivo(pelicano) 
+		llanura.agregarSerVivo(condor) 
+		
+		bosque.agregarSerVivo(golondrina) 
+		bosque.agregarSerVivo(pelicano) 
+		
+		bosque2.agregarSerVivo(golondrina) 
+		
+		reserva.agregarHabitat(llanura)
+		reserva.agregarHabitat(bosque)
+		reserva.agregarHabitat(bosque2)
+		
+		assert.equals(llanura, reserva.mayorBiomasa())
+	}
+	
+	test "La llanura está equilibrada" {
+		const llanura = new Habitat()
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		const golondrina1 = new Animal(especieFauna = ave, peso = 2)
+		const golondrina2 = new Animal(especieFauna = ave, peso = 2)
+		const golondrina3 = new Animal(especieFauna = ave, peso = 2)
+		const golondrina4 = new Animal(especieFauna = ave, peso = 2)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		
+		llanura.agregarSerVivo(golondrina) 
+		llanura.agregarSerVivo(golondrina1) 
+		llanura.agregarSerVivo(golondrina2) 
+		llanura.agregarSerVivo(golondrina3) 
+		llanura.agregarSerVivo(golondrina4) 
+		llanura.agregarSerVivo(pelicano) 
+		llanura.agregarSerVivo(condor) 
+			
+		reserva.agregarHabitat(llanura)
+		
+		assert.equals([llanura], reserva.habitatsEquilibrados())
+	}
+	
+	test "Hay habitats que están desequilibrados" {
+		const llanura = new Habitat()
+		const bosque = new Habitat()
+		const bosque2 = new Habitat()
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		const golondrina1 = new Animal(especieFauna = ave, peso = 2)
+		const golondrina2 = new Animal(especieFauna = ave, peso = 2)
+		const golondrina3 = new Animal(especieFauna = ave, peso = 2)
+		const golondrina4 = new Animal(especieFauna = ave, peso = 2)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		
+		llanura.agregarSerVivo(golondrina) 
+		llanura.agregarSerVivo(golondrina1) 
+		llanura.agregarSerVivo(golondrina2) 
+		llanura.agregarSerVivo(golondrina3) 
+		llanura.agregarSerVivo(golondrina4) 
+		llanura.agregarSerVivo(pelicano) 
+		llanura.agregarSerVivo(condor) 
+		
+		bosque.agregarSerVivo(golondrina) 
+		bosque.agregarSerVivo(condor) 
+		
+		bosque2.agregarSerVivo(golondrina) 
+		bosque2.agregarSerVivo(pelicano) 
+		bosque2.agregarSerVivo(condor) 
+			
+		reserva.agregarHabitat(llanura)
+		reserva.agregarHabitat(bosque)
+		reserva.agregarHabitat(bosque2)
+		
+		assert.equals([bosque, bosque2], reserva.habitatsDesequilibrados())
+	}
+	
+	test "¿Todos los habitats tienen a la golondrina?" {
+		const llanura = new Habitat()
+		const bosque = new Habitat()
+		const bosque2 = new Habitat()
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		const golondrina = new Animal(especieFauna = ave, peso = 2)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		
+		llanura.agregarSerVivo(golondrina) 
+		llanura.agregarSerVivo(pelicano) 
+		llanura.agregarSerVivo(condor) 
+		
+		bosque.agregarSerVivo(golondrina) 
+		bosque.agregarSerVivo(pelicano) 
+		
+		bosque2.agregarSerVivo(golondrina) 
+		
+		reserva.agregarHabitat(llanura)
+		reserva.agregarHabitat(bosque)
+		reserva.agregarHabitat(bosque2)
+		
+		assert.that(reserva.especieEstaEnTodosLosHabitats(golondrina))
+	}
 }
 
-describe "test de habitats" {
-//probar totalBiomasa(), producirIncendio(), 	
+describe "Test de Habitats" {
 	
+	test "Cantidad total de la biomasa en plantas" {
+		const llanura = new Habitat()
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const roble = new Planta(altura = 40, especieFlora = angiospermas)
+		const margarita = new Planta(altura = 2, especieFlora = angiospermas)
+		
+		llanura.agregarSerVivo(roble) 
+		llanura.agregarSerVivo(margarita) 
+		
+		assert.equals(14, llanura.totalBiomasa())
+	}
+	
+	test "Producir incendio con animales" {
+		const llanura = new Habitat()
+		
+		const ave = new EspecieFauna(coeficiente = 2, locomocion = volar, pesoReferencia = 5)
+		
+		const condor = new Animal(especieFauna = ave, peso = 11)
+		const pelicano = new Animal(especieFauna = ave, peso = 6)
+		
+		const mamifero = new EspecieFauna(coeficiente = 2, locomocion = correr, pesoReferencia = 70)
+		
+		const leon = new Animal(especieFauna = mamifero, peso = 190)
+		const jaguar = new Animal(especieFauna = mamifero, peso = 77)
+		
+		const mamiferoAcuatico = new EspecieFauna(coeficiente = 2, locomocion = nadar, pesoReferencia = 50)
+		
+		const delfin = new Animal(especieFauna = mamiferoAcuatico, peso = 130)
+		
+		const molusco = new EspecieFauna(coeficiente = 2, locomocion = inmobil, pesoReferencia = 1)
+		
+		const mejillon = new Animal(especieFauna = molusco, peso = 1)
+		
+		llanura.agregarSerVivo(condor) 
+		llanura.agregarSerVivo(pelicano) 
+		llanura.agregarSerVivo(leon)
+		llanura.agregarSerVivo(jaguar)
+		llanura.agregarSerVivo(delfin)
+		llanura.agregarSerVivo(mejillon)
+		
+		llanura.producirIncendio()
+		
+		assert.equals([condor, jaguar, delfin], llanura.seresVivos())
+	}
+	
+	test "Producir incendio con plantas" {
+		const llanura = new Habitat()
+		const angiospermas = new EspecieFlora(alturaReferencia = 5)
+		const roble = new Planta(altura = 40, especieFlora = angiospermas)
+		const margarita = new Planta(altura = 2, especieFlora = angiospermas)
+		
+		llanura.agregarSerVivo(roble) 
+		llanura.agregarSerVivo(margarita) 
+		
+		llanura.producirIncendio()
+		
+		assert.equals([roble], llanura.seresVivos())
+	}
 }
